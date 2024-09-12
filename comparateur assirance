@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur d'Économies Assurance Emprunteur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulateur d'Économies d'Assurance Emprunteur</h1>
+        
+        <label for="loanAmount">Montant du prêt (€)</label>
+        <input type="number" id="loanAmount" placeholder="Ex : 200000" />
+
+        <label for="loanDuration">Durée restante du prêt (en années)</label>
+        <input type="number" id="loanDuration" placeholder="Ex : 15" />
+
+        <label for="currentRate">Taux actuel de l'assurance (%)</label>
+        <input type="number" step="0.01" id="currentRate" placeholder="Ex : 0.36" />
+
+        <label for="newRate">Nouveau taux proposé (%)</label>
+        <input type="number" step="0.01" id="newRate" placeholder="Ex : 0.20" />
+
+        <button onclick="calculateSavings()">Calculer les économies</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateSavings() {
+            // Récupérer les valeurs entrées par l'utilisateur
+            const loanAmount = document.getElementById("loanAmount").value;
+            const loanDuration = document.getElementById("loanDuration").value;
+            const currentRate = document.getElementById("currentRate").value;
+            const newRate = document.getElementById("newRate").value;
+
+            // Validation des valeurs
+            if (!loanAmount || !loanDuration || !currentRate || !newRate) {
+                document.getElementById("result").innerHTML = "Veuillez remplir tous les champs.";
+                return;
+            }
+
+            // Calcul des coûts d'assurance actuels et nouveaux
+            const currentAnnualCost = (loanAmount * currentRate) / 100;
+            const newAnnualCost = (loanAmount * newRate) / 100;
+
+            const totalCurrentCost = currentAnnualCost * loanDuration;
+            const totalNewCost = newAnnualCost * loanDuration;
+
+            // Calcul des économies
+            const savings = totalCurrentCost - totalNewCost;
+
+            // Afficher les résultats
+            document.getElementById("result").innerHTML = 
+                `Vous pourriez économiser <strong>${savings.toFixed(2)}€</strong> sur la durée totale du prêt en changeant d'assurance.`;
+        }
+    </script>
+</body>
+</html>
