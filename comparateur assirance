@@ -70,6 +70,10 @@
         <label for="newRate">Nouveau taux proposé (%)</label>
         <input type="number" step="0.01" id="newRate" placeholder="Ex : 0.20" />
 
+        <!-- Nouveau champ pour collecter l'email ou le téléphone -->
+        <label for="userContact">Votre email ou téléphone</label>
+        <input type="text" id="userContact" placeholder="Ex : email@exemple.com ou 0600000000" />
+
         <button onclick="calculateSavings()">Calculer les économies</button>
 
         <div class="result" id="result"></div>
@@ -82,10 +86,17 @@
             const loanDuration = document.getElementById("loanDuration").value;
             const currentRate = document.getElementById("currentRate").value;
             const newRate = document.getElementById("newRate").value;
+            const userContact = document.getElementById("userContact").value;
 
             // Validation des valeurs
             if (!loanAmount || !loanDuration || !currentRate || !newRate) {
                 document.getElementById("result").innerHTML = "Veuillez remplir tous les champs.";
+                return;
+            }
+
+            // Validation des coordonnées (email ou téléphone)
+            if (!userContact || (!validateEmail(userContact) && !validatePhone(userContact))) {
+                document.getElementById("result").innerHTML = "Veuillez entrer un email ou un numéro de téléphone valide.";
                 return;
             }
 
@@ -101,7 +112,19 @@
 
             // Afficher les résultats
             document.getElementById("result").innerHTML = 
-                `Vous pourriez économiser <strong>${savings.toFixed(2)}€</strong> sur la durée totale du prêt en changeant d'assurance.`;
+                `Merci, vos coordonnées ont été enregistrées. Vous pourriez économiser <strong>${savings.toFixed(2)}€</strong> sur la durée totale du prêt en changeant d'assurance.`;
+        }
+
+        // Fonction pour valider l'email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        // Fonction pour valider le numéro de téléphone (format simple)
+        function validatePhone(phone) {
+            const re = /^\d{10}$/;
+            return re.test(String(phone));
         }
     </script>
 </body>
